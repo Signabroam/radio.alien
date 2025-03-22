@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALIESDR+ - Grav</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    iframe {
+      flex: 1;
+      border: none;
+      position: relative;
+    }
+
+    .iframe-overlay {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 5; /* Ensure it's below other elements */
+      opacity: 0.5; /* Make it semi-transparent */
+      pointer-events: none; /* Allow clicks to pass through */
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      width: 450px; /* Increased by 200px */
+      height: 100vh;
+      background: #333;
+      color: white;
+      transition: transform 0.3s ease-in-out;
+      padding: 20px;
+      z-index: 10; /* Ensure sidebars are above the overlay */
+      overflow-y: auto; /* Enable vertical scrolling */
+    }
+
+    .left {
+      left: 0;
+      transform: translateX(-100%);
+    }
+
+    .right {
+      right: 0;
+      transform: translateX(100%);
+    }
+
+    .open {
+      transform: translateX(0);
+    }
+
+    .button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      z-index: 20; /* Ensure buttons are above other elements */
+    }
+
+    .left-button {
+      left: 10px;
+    }
+
+    .right-button {
+      right: 10px;
+    }
+
+    .left.open~.left-button {
+      left: 460px; /* Increased by 200px */
+    }
+
+    .right.open~.right-button {
+      right: 460px; /* Increased by 200px */
+    }
+
+    .link-button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: #444;
+      color: white;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+    }
+
+    .link-button:hover {
+      background: #555;
+      border: 1px solid blue;
+    }
+
+    .kiwifo {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: #555;
+      color: white;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+    }
+
+    details {
+      border-left: 3px solid yellow;
+      padding: 10px;
+      margin: 10px 0;
+      background: #444;
+      color: white;
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    details[open] {
+      border-left: 3px solid blue;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    li::before {
+      content: "\2022";
+      color: transparent;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .sidebar-header {
+      background: #222;
+      padding: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .topbar {
+      background: #444;
+      padding: 10px;
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .topbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
+    .topbar a:hover {
+      text-decoration: underline;
+    }
+          
+          @media (max-width: 1024px) { /* Tablettes et téléphones */
+  .sidebar {
+    width: 100vw; /* La sidebar prend toute la largeur de l'écran */
+    height: 100vh; /* Prend toute la hauteur */
+  }
+
+  .left.open~.left-button {
+    left: calc(100vw - 40px); /* Ajuste le bouton */
+  }
+
+  .right.open~.right-button {
+    right: calc(100vw - 40px); /* Ajuste le bouton */
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="sidebar left" id="leftSidebar">
+    <div class="topbar">
+      <a onclick="loadLeftContent('option1')">Main menu</a>
+      <a onclick="loadLeftContent('option2')">Option 2</a>
+      <a onclick="loadLeftContent('option3')">Option 3</a>
+    </div>
+    <div class="sidebar-header">Left Sidebar Header</div>
+    <div id="leftContent">
+      <h2>Main ALIESDR Menu</h2>
+      <p><iframe src="http://radioalien.atwebpages.com/user/pages/home/clock.html" width="100%" height="200px" frameborder="0"></iframe></p>
+    </div>
+  </div>
+  <button class="button left-button" onclick="toggleSidebar('left')">&#9664;</button>
+
+  <div class="sidebar right" id="rightSidebar">
+    <div class="topbar">
+      <a onclick="loadRightContent('option1')">Our SDR Selections</a>
+      <a onclick="loadRightContent('option2')">Option 2</a>
+      <a onclick="loadRightContent('option3')">Option 3</a>
+    </div>
+    <div class="sidebar-header">Right Sidebar Header</div>
+    <div id="rightContent">
+      <h2>Our selections</h2><br />
+      <details>
+        <summary>France</summary>
+        <div class="kiwifo">
+          <h3>SDR TREMOLAT</h3>
+          <details>
+            <summary>SDR N°1</summary>
+            <button class="link-button" onclick="changeIframe('http://sdr.autreradioautreculture.com:8073/')">Join</button>
+            <ul>
+              <li><p><b>Antenna:</b> Mini-Whip dual FET 3,50m</p></li>
+              <li><p><b>Time limit:</b> 10 Hours</p></li>
+            </ul>
+          </details>
+          <details>
+            <summary>SDR N°2</summary>
+            <button class="link-button" onclick="changeIframe('http://sdr.autreradioautreculture.com:8074/')">Join</button>
+            <ul>
+              <li><p><b>Antenna:</b> Vertical pylon isolated 11 meters</p></li>
+              <li><p><b>Time limit:</b> 10 Hours</p></li>
+            </ul>
+          </details>
+        </div>
+        <div class="kiwifo">
+          <h3>POMMIER DE BEAUREPAIRE</h3>
+          <details>
+            <summary>SDR N°1</summary>
+            <button class="link-button" onclick="changeIframe('http://f6abj-kiwihf.ddns.net:8074/?callsign=ALISDR_user')">Join</button>
+            <ul>
+              <li><p><b>Antenna:</b> 80m dipole 12 m above ground</p></li>
+              <li><p><b>Time limit:</b> 60 Minutes</p></li>
+            </ul>
+          </details>
+        </div>
+      </details>
+      <details>
+        <summary>Finland</summary>
+        <div class="kiwifo">
+          <h3>APRS SDR</h3>
+          <details>
+            <summary>SDR N°1</summary>
+            <button class="link-button" onclick="changeIframe('http://kiwi-kuo.aprs.fi:8073')">Join</button>
+            <ul>
+              <li><p><b>Antenna:</b> Bonito Megaloop FX</p></li>
+              <li><p><b>Time limit:</b> 30 Minutes</p></li>
+            </ul>
+          </details>
+          <details>
+            <summary>SDR N°2</summary>
+            <button class="link-button" onclick="changeIframe('http://kiwi-vih.aprs.fi:8073')">Join</button>
+            <ul>
+              <li><p><b>Antenna:</b> Wellbrook ALA1530LN loop</p></li>
+              <li><p><b>Time limit:</b> 30 Minutes</p></li>
+            </ul>
+          </details>
+        </div>
+      </details>
+    </div>
+  </div>
+  <button class="button right-button" onclick="toggleSidebar('right')">&#9654;</button>
+
+  <iframe id="mainIframe" src="http://radioalien.atwebpages.com/user/pages/home/02.map/map.html"></iframe>
+  <img src="../images/grav-logo.png" class="iframe-overlay" alt="Grav Logo">
+
+  <script>
+    function toggleSidebar(side) {
+      let sidebar = document.getElementById(side + 'Sidebar');
+      sidebar.classList.toggle('open');
+      let button = document.querySelector(`.${side}-button`);
+      button.classList.toggle('open');
+    }
+
+    function changeIframe(url) {
+      document.getElementById('mainIframe').src = url;
+    }
+
+    function loadLeftContent(option) {
+      const leftContent = document.getElementById('leftContent');
+      if (option === 'option1') {
+        leftContent.innerHTML = `
+          <h2>Main ALIESDR+ Menu</h2>
+      <p><iframe src="http://radioalien.atwebpages.com/user/pages/home/clock.html" width="100%" height="200px" frameborder="0"></iframe></p>
+      <br>
+      
+        `;
+      } else if (option === 'option2') {
+        leftContent.innerHTML = `
+          <h2>Option 2</h2>
+          <p>Contenu pour l'option 2.</p>
+        `;
+      } else if (option === 'option3') {
+        leftContent.innerHTML = `
+          <h2>Option 3</h2>
+          <p>Contenu pour l'option 3.</p>
+        `;
+      }
+    }
+
+    function loadRightContent(option) {
+      const rightContent = document.getElementById('rightContent');
+      if (option === 'option1') {
+        rightContent.innerHTML = `
+          <h2>Our selections</h2><br />
+          <details>
+            <summary>France</summary>
+            <div class="kiwifo">
+              <h3>SDR TREMOLAT</h3>
+              <details>
+                <summary>SDR N°1</summary>
+                <button class="link-button" onclick="changeIframe('http://sdr.autreradioautreculture.com:8073/')">Join</button>
+                <ul>
+                  <li><p><b>Antenna:</b> Mini-Whip dual FET 3,50m</p></li>
+                  <li><p><b>Time limit:</b> 10 Hours</p></li>
+                </ul>
+              </details>
+              <details>
+                <summary>SDR N°2</summary>
+                <button class="link-button" onclick="changeIframe('http://sdr.autreradioautreculture.com:8074/')">Join</button>
+                <ul>
+                  <li><p><b>Antenna:</b> Vertical pylon isolated 11 meters</p></li>
+                  <li><p><b>Time limit:</b> 10 Hours</p></li>
+                </ul>
+              </details>
+            </div>
+            <div class="kiwifo">
+              <h3>POMMIER DE BEAUREPAIRE</h3>
+              <details>
+                <summary>SDR N°1</summary>
+                <button class="link-button" onclick="changeIframe('http://f6abj-kiwihf.ddns.net:8074/?callsign=ALISDR_user')">Join</button>
+                <ul>
+                  <li><p><b>Antenna:</b> 80m dipole 12 m above ground</p></li>
+                  <li><p><b>Time limit:</b> 60 Minutes</p></li>
+                </ul>
+              </details>
+            </div>
+          </details>
+          <details>
+            <summary>Finland</summary>
+            <div class="kiwifo">
+              <h3>APRS SDR</h3>
+              <details>
+                <summary>SDR N°1</summary>
+                <button class="link-button" onclick="changeIframe('http://kiwi-kuo.aprs.fi:8073')">Join</button>
+                <ul>
+                  <li><p><b>Antenna:</b> Bonito Megaloop FX</p></li>
+                  <li><p><b>Time limit:</b> 30 Minutes</p></li>
+                </ul>
+              </details>
+              <details>
+                <summary>SDR N°2</summary>
+                <button class="link-button" onclick="changeIframe('http://kiwi-vih.aprs.fi:8073')">Join</button>
+                <ul>
+                  <li><p><b>Antenna:</b> Wellbrook ALA1530LN loop</p></li>
+                  <li><p><b>Time limit:</b> 30 Minutes</p></li>
+                </ul>
+              </details>
+            </div>
+          </details>
+        `;
+      } else if (option === 'option2') {
+        rightContent.innerHTML = `
+          <h2>Option 2</h2>
+          <p>Contenu pour l'option 2.</p>
+        `;
+      } else if (option === 'option3') {
+        rightContent.innerHTML = `
+          <h2>Option 3</h2>
+          <p>Contenu pour l'option 3.</p>
+        `;
+      }
+    }
+
+    // Load default content for both sidebars
+    loadLeftContent('option1');
+    loadRightContent('option1');
+  </script>
+</body>
+
+</html>

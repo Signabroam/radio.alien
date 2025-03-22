@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RadioAlien - The forum and radio station">
+    <title>RadioAlien</title>
+        <script>
+    function checkMobile() {
+        if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            alert("Please, to use our website you need to enable the pc mode on your navigator! This avoid any size issue.");
+            setTimeout(checkMobile, 3000);
+        }
+    }
+    checkMobile();
+</script>
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            border-bottom: 4px solid #666;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            color: #66ff66;
+            text-shadow: 2px 2px 5px #000;
+        }
+
+        nav {
+            background-color: #666;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .section {
+            background-color: white;
+            margin: 20px 0;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .forum-title {
+            color: #4a4a4a;
+            font-size: 2em;
+        }
+
+        .forum-posts {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .forum-posts li {
+            background-color: #f9f9f9;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .button {
+            background-color: #4a4a4a;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #333;
+        }
+
+        footer {
+            background-color: #4a4a4a;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+            border-top: 4px solid #666;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        iframe {
+          border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://i.postimg.cc/15GjxS8b/image-removebg-preview.png" alt="RadioAlienLogo" width="90" height="110" style="left: 10vw; position: absolute;">
+        <div class="logo">RadioAlien</div>
+        <p>Streaming and Forum since 2025</p>
+    </header>
+    
+    <nav>
+        <a href="./">Home</a>
+        <a href="distribution.html">Distributions</a>
+        <a href="https://keams-os.ismyradio.com/">Listen Live</a>
+        <a href="./ANFR-spectre-frequences-juin-2020.pdf">ANFR (French) Full band pdf</a>
+    </nav>
+    
+    <div class="container">
+      
+      <div class="section">
+        <iframe src="http://radioalien.atwebpages.com/user/pages/home/clock.html" width="100%" height="200px" frameborder="0"></iframe>
+      </div>
+      
+        <!-- Section: Home -->
+        <div class="section">
+            <h1>Welcome to RadioAlien</h1>
+            <p>RadioAlien is a unique mix of online radio plugins distribution and retro forum culture. Dive into a world where you can find to your favorite alien beats and interact with fellow humans.</p>
+            <p><a href="https://keams-os.ismyradio.com/"><button class="button">Listen Live</button></a> or listen here<br>
+            <div class="cstrEmbed" data-type="newStreamPlayer" data-publicToken="521527a1-750e-4c04-ba19-3abd60cacdb7" data-theme="dark" data-color="6C2BDD" data-channelId="" data-rendered="false">
+            <a href="https://www.caster.fm">Shoutcast Hosting</a> <a href="https://www.caster.fm">Stream Hosting</a> <a href="https://www.caster.fm">Radio Server Hosting</a>
+          </div>
+         <script src="//cdn.cloud.caster.fm//widgets/embed.js"></script></p>
+        </div>
+        
+        <!-- Section: Forum -->
+        <div class="section">
+            <h2 class="forum-title">Community Forum</h2>
+            <ul class="forum-posts">
+                <li>
+                    <strong>General Chat</strong><br>
+                    Welcome to the RadioAlien community! Introduce yourself here with our discord server!
+                    <br><br><a href="https://discord.gg/9wZ6YyRWvt"><span class="button">Join Discussion</span></a>
+                </li>
+                <li>
+                    <strong>File Requests</strong><br>
+                     Want something missing here? Post your request!
+                    <br><br><a href="./request.html"><span class="button">Request</span></a>
+                </li>
+                <li>
+                  <strong>AliSDR+</strong><br>
+                  AliSDR+ is our new sdr online service, its not an online sdr software but an online sdr logger, on it you can loggin to our selected sdr for any uses.
+                  Want good sdr in Finland or in USA? Well, we have selected for you the best!
+                  <br /><br /><a href="./alisdr.html"><span class="button">AliSDR+</span></a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Section: About -->
+        <div class="section">
+            <h2>About RadioAlien</h2>
+            <p>Founded in 2025, RadioAlien is more than just a radio website; it's a community. Whether you're here for the music or the plugins, we welcome all those who are ready to experience the unique atmosphere of our website. Join us for music, distribution, and discussions.</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 RadioAlien - &copy; 2025 Discode Studio - Powered by Grav</p> <a href="https://getgrav.org/"><img src="../images/grav-logo.png"></a>
+        <div class="footer-links">
+            <a href="#">Privacy</a> | <a href="#">Terms</a> | <a href="https://discord.gg/9wZ6YyRWvt">Contact</a>
+        </div>
+    </footer>
+</body>
+</html>
