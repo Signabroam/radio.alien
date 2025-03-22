@@ -33,7 +33,7 @@ var autreIcon = L.icon({
 });
 
 var web888Icon = new L.Icon({
-    iconUrl: 'map\images\web-888-51x60.png',
+    iconUrl: 'images/web-888-51x60.png',
     iconSize: [30, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34]
@@ -47,7 +47,7 @@ var militaryIcon = new L.Icon({
 });
 
 var owrIcon = new L.Icon({
-    iconUrl: 'map\images\images.png',
+    iconUrl: 'images/images.png',
     iconSize: [30, 30],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34]
