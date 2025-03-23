@@ -277,17 +277,18 @@
   </div>
   <button class="button right-button" onclick="toggleSidebar('right')">&#9654;</button>
 
-  <iframe id="mainIframe" src="map\map.html"></iframe>
+  <script>
+    function changeIframe(url) {
+      const proxy = "https://corsproxy.io/?";
+      document.getElementById("mainIframe").src = proxy + encodeURIComponent(url);
+    }
+  </script>
+  
+  <iframe id="mainIframe" src="map\map.html" width="100%" height="100%"></iframe>
+  
   <!-- <img src="" class="iframe-overlay" alt="Logo"> -->
 
   <script>
-    function changeIframe(url) {
-  if (!url.startsWith('https://')) {
-    url = `https://corsproxy.io/?${encodeURIComponent(url)}`;
-  }
-  document.getElementById('mainIframe').src = url;
-}
-
     function toggleSidebar(side) {
       let sidebar = document.getElementById(side + 'Sidebar');
       sidebar.classList.toggle('open');
