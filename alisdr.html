@@ -281,6 +281,13 @@
   <!-- <img src="" class="iframe-overlay" alt="Logo"> -->
 
   <script>
+    function changeIframe(url) {
+  if (!url.startsWith('https://')) {
+    url = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+  }
+  document.getElementById('mainIframe').src = url;
+}
+
     function toggleSidebar(side) {
       let sidebar = document.getElementById(side + 'Sidebar');
       sidebar.classList.toggle('open');
