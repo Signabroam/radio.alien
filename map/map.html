@@ -9,7 +9,13 @@
     <!-- CSS -->
     <link rel="stylesheet" href="leaflet.css">
     <link rel="stylesheet" href="style.css"> <!-- Fichier CSS externe -->
-    <script src="https://unpkg.com/@joergdietrich/leaflet.terminator@1.0.0/L.Terminator.js"></script>
+    <script>
+        import L from 'leaflet';
+import terminator from '@joergdietrich/leaflet.terminator';
+
+var map = L.map('map').addLayer(L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'))
+terminator().addTo(map);
+    </script>
 </head>
 <body>
 
