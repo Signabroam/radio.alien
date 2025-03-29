@@ -75,7 +75,7 @@ var noaaIcon = new L.Icon({
 });
 
 var websdrIcon = new L.Icon({
-    iconUrl: 'map/images/veronlogo100b.gif',
+    iconUrl: 'images/veronlogo100b.gif',
     iconSize: [25, 40],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34]
