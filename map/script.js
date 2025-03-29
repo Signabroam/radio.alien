@@ -75,7 +75,7 @@ var noaaIcon = new L.Icon({
 });
 
 var websdrIcon = new L.Icon({
-    iconUrl: 'http://websdr.ewi.utwente.nl:8901/veronlogo100b.gif',
+    iconUrl: 'map/images/veronlogo100b.gif',
     iconSize: [25, 40],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34]
@@ -135,7 +135,7 @@ Cicon(80.118564, -170.859375, `
     <img src="https://lh6.googleusercontent.com/proxy/XxF3-F2dKSulH4ZiAXpaYOrdFEp4pu3wCFkxurZo0Z54YXztG-ExKFglO-OXXXvloNgzKDrKT06LSQCMaEap-iWHqny2V2NFbA" width="25" height="30"> - KiwiSDR<br>
     <img src="https://icon-library.com/images/gps-icon-png/gps-icon-png-6.jpg" width="30" height="30"> - Time Stations Transmitter Site<br>
     <img src="./images/marker-icon.png" width="20" height="30"> - Other<br>
-    <img src="http://websdr.ewi.utwente.nl:8901/veronlogo100b.gif" width="25" height="40"> - WebSDR<br>
+    <img src="./images/veronlogo100b.gif" width="25" height="40"> - WebSDR<br>
     <img src="https://raw.githubusercontent.com/CliffCloud/Leaflet.LocationShare/master/dist/images/IconMapReceive.png" width="30" height="30"> - Custom user location using the Leaflet.LocationShare script.<br>
     <img src="https://floridadep.gov/sites/default/files/media-folders/media-root/NOAA-color-logo-no-text-print.png" width="30" height="30"> - NOAA Center for Weather and Climate Prediction<br>
     `, 'autreIcon');
