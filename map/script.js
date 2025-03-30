@@ -2,18 +2,104 @@
 var map = L.map('map').setView([42, 2], 2);
 var popup = L.popup();
 
-
-map.on('click', onMapClick);
-
-
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map);
+// Définition des différentes couches de carte
+var baseLayers = {
+    "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 20,
+        attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }),
+    "Wolrd Imagery":  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    }),
+    "OpenStreetMap France": L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+        maxZoom: 20,
+        attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }),
+    "Nasa Map (Night)": L.tileLayer('https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}', {
+        attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
+        bounds: [[-85.0511287776, -179.999999975], [85.0511287776, 179.999999975]],
+        minZoom: 1,
+        maxZoom: 8,
+        format: 'jpg',
+        time: '',
+        tilematrixset: 'GoogleMapsCompatible_Level'
+    }),
+    "Google Maps Streets": L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.google.com/intl/fr_fr/help/terms_maps/">Google Maps</a>',
+        subdomains:['mt0','mt1','mt2','mt3']
+    }),
+    "Google Maps Satellites": L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.google.com/intl/fr_fr/help/terms_maps/">Google Maps</a>',
+        subdomains:['mt0','mt1','mt2','mt3']
+    }),
+    "Google Maps Hybrid": L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.google.com/intl/fr_fr/help/terms_maps/">Google Maps</a>',
+        subdomains:['mt0','mt1','mt2','mt3']
+    }),
+    "Google Maps Terrain": L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+        maxZoom: 30,
+        attribution: '&copy; <a href="https://www.google.com/intl/fr_fr/help/terms_maps/">Google Maps</a>',
+        subdomains:['mt0','mt1','mt2','mt3']
+    }),
+    "Carto Voyager": L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.carto.com/attributions">CARTO Voyager</a>'
+    }),
+    "Wikimedia": L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://wikimedia.org">Wikimedia</a>'
+    }),
+    /*"Stadia Day": L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
+    }),
+    "Stadia Night": L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'png'
+    }),
+    "Stadia Satellite": L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
+        minZoom: 0,
+        maxZoom: 20,
+        attribution: '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) | &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        ext: 'jpg'
+    }),*/
+    "OPVNKarte (Airport spot map)": L.tileLayer('https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map <a href="https://memomaps.de/">memomaps.de</a> <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }),
 };
+L.terminator().addTo(map);
 
-map.on('click', onMapClick);
+// Ajout de la couche OSM par défaut
+baseLayers["OpenStreetMap"].addTo(map);
+
+// Ajout du contrôle de couches en haut à droite
+L.control.layers(baseLayers, null, { position: 'topright' }).addTo(map);
+
+map.on('click', function(e) {
+    let lat = e.latlng.lat.toPrecision(8);
+    let lon = e.latlng.lng.toPrecision(8);
+
+    // Définition de l'icône personnalisée
+    const customIcon = L.icon({
+        iconUrl: 'https://cdn-icons-png.flaticon.com/512/7061/7061883.png',
+        iconSize: [32, 32], // Taille de l'icône
+        iconAnchor: [16, 32], // Point d'ancrage (au centre en bas)
+        popupAnchor: [0, -32] // Décalage du popup par rapport à l'icône
+    });
+
+    // Ajout du marqueur avec l'icône personnalisée
+    const point = L.marker([lat, lon], { icon: customIcon }).addTo(map)
+        .bindPopup('<a href="http://maps.google.com/maps?q=&layer=c&cbll=' + lat + ',' + lon + '&cbp=11,0,0,0,0" target="blank"><b> Google Street View </b></a><br>Location: <b>' + lat + ', ' + lon + '</b>').openPopup();
+});
+
 
 // Exemples de marker : https://leafletjs.com/examples/quick-start/
 
@@ -107,8 +193,8 @@ Cicon(65.868181, 22.643595, 'KiwiSDR at Kalix.<br>Siknas Fortress with wide band
 Cicon(52.239968, 6.850555, 'WebSDR at Twente.<br><a href="http://websdr.ewi.utwente.nl:8901/">http://websdr.ewi.utwente.nl:8901/</a>.', 'websdr');
 
 Cicon(60.3116311, 30.2797395, '<a href="https://priyom.org/military-stations/russia/the-buzzer">UVB-76 transmitter Location</a><br><br><img src="https://www.numbers-stations.com/wp-content/uploads/The-Buzzer-UVB-76-Location-Road-View-Outside-of-St-Petersburg.webp" width="200" height="100">', 'military');
-Cicon(47.2994444, 39.6736111, '<a href="https://priyom.org/military-stations/russia/the-pip">(not accurate) The PIP transmitter location</a>', 'military');
-Cicon(47.2996085, 39.6746862, '<a href="https://priyom.org/military-stations/russia/the-squeaky-wheel">(not accurate) The Squealy Wheel transmitter location</a>', 'military');
+Cicon(47.299609, 39.672693, '<a href="https://priyom.org/military-stations/russia/the-pip">The PIP transmitter location</a>', 'military');
+Cicon(47.2996085, 39.6746862, '<a href="https://priyom.org/military-stations/russia/the-squeaky-wheel">The Squealy Wheel transmitter location</a>', 'military');
 Cicon(54.8249925, 31.8132469, '<a href="https://priyom.org/military-stations/russia/the-alarm">(almost accurate) The Alarm transmitter location</a>', 'military');
 Cicon(54.8243392, 31.8137079, '<a href="https://priyom.org/military-stations/russia/the-air-horn">(almost accurate) The Air Horn transmitter location</a>', 'military');
 Cicon(54.8226154, 31.8154299, '<a href="https://priyom.org/military-stations/russia/the-goose">(almost accurate) The Goose transmitter location</a>', 'military');
@@ -138,6 +224,7 @@ Cicon(80.118564, -170.859375, `
     <img src="./images/veronlogo100b.gif" width="25" height="40"> - WebSDR<br>
     <img src="https://raw.githubusercontent.com/CliffCloud/Leaflet.LocationShare/master/dist/images/IconMapReceive.png" width="30" height="30"> - Custom user location using the Leaflet.LocationShare script.<br>
     <img src="https://floridadep.gov/sites/default/files/media-folders/media-root/NOAA-color-logo-no-text-print.png" width="30" height="30"> - NOAA Center for Weather and Climate Prediction<br>
+    <img src="https://cdn-icons-png.flaticon.com/512/7061/7061883.png" width="30" height="30"> - Street View<br>
     `, 'autreIcon');
 
 Cicon(45.29483124694043, -75.75784300053304, '<a href="https://en.wikipedia.org/wiki/CHU_(radio_station)">CHU Canada transmitter site</a>.<br><br><img src="https://images.squarespace-cdn.com/content/v1/51a013dee4b0a2a2d2ef73e9/1539352270431-P5OAWUASJZ8P82BUQY3U/CHU+Canada+QSL+1.jpg" width="100%" height="100">', 'times');
@@ -150,13 +237,6 @@ Cicon(38.9721121, -76.924513, '<a href="https://www.cpc.ncep.noaa.gov/">NOAA Cen
 
 Cicon(83.111071, -35.859375, 'North Pole Aurora Forecast<br><img src="https://services.swpc.noaa.gov/images/animations/ovation/north/latest.jpg" width="300" height="300">', 'autreIcon');
 Cicon(-75.497157, 55.546875, 'South Pole Aurora Forecast<br><img src="https://services.swpc.noaa.gov/images/animations/ovation/south/latest.jpg" width="300" height="300">', 'autreIcon');
-
-// Ajout du fond de carte (OpenStreetMap)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 20,
-    attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-L.terminator().addTo(map);
 
 // Ajout d'un marqueur avec une popup
 
