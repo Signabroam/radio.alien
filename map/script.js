@@ -189,6 +189,7 @@ Cicon(51.611271, 45.990255, 'OpenWebRX at Saratov.<br><a href="http://websdr64.r
 Cicon(45.462362, 39.44809, 'OpenWebRX at Korenovsk.<br><a href="http://rusdr.ddns.net/">http://rusdr.ddns.net/</a>.', 'owr');
 Cicon(45.292988, 41.048988, 'OpenWebRX at Grigoropolisskaya.<br><a href="https://sdr.ua6hdw.keenetic.link/">https://sdr.ua6hdw.keenetic.link/</a>.', 'owr');
 Cicon(65.868181, 22.643595, 'KiwiSDR at Kalix.<br>Siknas Fortress with wide band Military Dipole near Kalix.<br><a href="http://kiwisdr.sk2hg.se:8073/">http://kiwisdr.sk2hg.se:8073/</a>.', 'kiwisdr');
+Cicon(49.928668, 2.9543567, 'OpenWebRX at Péronne.<br><a href="http://peronne-websdr.duckdns.org:8073/">http://peronne-websdr.duckdns.org:8073/</a>.', 'owr');
 
 Cicon(52.239968, 6.850555, 'WebSDR at Twente.<br><a href="http://websdr.ewi.utwente.nl:8901/">http://websdr.ewi.utwente.nl:8901/</a>.', 'websdr');
 
@@ -342,7 +343,7 @@ function updateISSMarker(lat, lon, name) {
     if (!issMarker) {
         // Si le marqueur n'existe pas, on le crée une seule fois
         issMarker = L.marker([lat, lon], { icon: issIcon }).addTo(map); // Création d'un marqueur avec l'icône personnalisée
-        issMarker.bindPopup(name).openPopup(); // Lien avec un popup pour afficher le nom
+        issMarker.bindPopup(name); // Lien avec un popup pour afficher le nom
     } else {
         // Si le marqueur existe, on met juste à jour sa position
         issMarker.setLatLng([lat, lon]); // Déplacement du marqueur sans le recréer
@@ -371,3 +372,125 @@ function updateISSPath(lat, lon) {
 // Mettre à jour toutes les 5 secondes
 setInterval(updateISSLocation, 1000);
 updateISSLocation();
+
+
+
+
+
+
+L.marker([46.929888, 1.8898402], {
+    icon: L.icon({
+        iconUrl: 'https://www.tdf.fr/wp-content/uploads/2022/02/TDF_LOGO_RVB_COULEUR-287x300.png',
+        iconSize: [24, 24],
+        iconAnchor: [12, 24],
+    })
+}).addTo(map)
+    .bindPopup('<a href="https://www.tdf.fr/">TDF</a> main site at Issoudun.<br><br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/03issoudun_rideaux_E_nuit.JPG/220px-03issoudun_rideaux_E_nuit.JPG" width="100%" height="150">')
+
+
+const markersData = [
+    { lat: 46.928902, lng: 1.9154620, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.931525, lng: 1.9265127, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.944696, lng: 1.9093037, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.942557, lng: 1.8992186, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.944652, lng: 1.8885970, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.959870, lng: 1.8896055, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.959607, lng: 1.9088745, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.956590, lng: 1.9191313, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.952899, lng: 1.9286585, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.965420, lng: 1.8626171, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.951156, lng: 1.8846273, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+    { lat: 46.952518, lng: 1.9394356, iconUrl: 'https://i1.sndcdn.com/artworks-KkdBHkNYcboVV6wN-g1qfbg-t500x500.jpg', minZoom: 13 },
+];
+  
+  const markers = []; // Pour les suivre
+
+  markersData.forEach(data => {
+    const icon = L.icon({
+      iconUrl: data.iconUrl,
+      iconSize: [24, 24],
+      iconAnchor: [12, 24],
+    });
+  
+    const marker = L.marker([data.lat, data.lng], { icon });
+    marker.minZoom = data.minZoom;
+    markers.push(marker);
+  });
+
+  function updateMarkersVisibility() {
+    const currentZoom = map.getZoom();
+  
+    markers.forEach(marker => {
+      if (currentZoom >= marker.minZoom) {
+        if (!map.hasLayer(marker)) map.addLayer(marker);
+      } else {
+        if (map.hasLayer(marker)) map.removeLayer(marker);
+      }
+    });
+  }
+  
+  map.on('zoomend', updateMarkersVisibility);
+  map.whenReady(updateMarkersVisibility); // pour le premier affichage
+  
+  async function kiwiload() {
+    try {
+      const response = await fetch("https://api.codetabs.com/v1/proxy/?quest=http://kiwisdr.com/public/");
+      const html = await response.text();
+  
+      // Crée un conteneur DOM temporaire pour parser le HTML
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+  
+      const entries = doc.querySelectorAll(".cl-entry");
+  
+      entries.forEach(entry => {
+        const htmlBlock = entry.innerHTML;
+  
+        // Extraction via RegEx
+        const gps = /<!--\s*gps=\(([^,]+),\s*([^)]+)\)\s*-->/.exec(htmlBlock);
+        const name = /<!--\s*name=([^\n\r]+?)\s*-->/.exec(htmlBlock);
+        const sdr_hw = /<!--\s*sdr_hw=([^\n\r]+?)\s*-->/.exec(htmlBlock);
+        const users = /<!--\s*users=(\d+)\s*-->/.exec(htmlBlock);
+        const users_max = /<!--\s*users_max=(\d+)\s*-->/.exec(htmlBlock);
+        const loc = /<!--\s*loc=([^\n\r]+?)\s*-->/.exec(htmlBlock);
+        const sw_version = /<!--\s*sw_version=([^\n\r]+?)\s*-->/.exec(htmlBlock);
+        const antenna = /<!--\s*antenna=([^\n\r]+?)\s*-->/.exec(htmlBlock);
+  
+        const lat = gps ? parseFloat(gps[1]) : null;
+        const lng = gps ? parseFloat(gps[2]) : null;
+  
+        const urlEl = entry.querySelector("a[href^='http']");
+        const link = urlEl ? urlEl.getAttribute("href") : null;
+  
+        const imgEl = entry.querySelector("img.cl-avatar");
+        const iconUrl = imgEl ? imgEl.getAttribute("src") : null;
+  
+        if (lat && lng && name && iconUrl) {
+          // Définir une icône personnalisée pour chaque entrée
+          const customIcon = L.icon({
+            iconUrl: iconUrl.startsWith("http") ? iconUrl : "http://kiwisdr.com" + iconUrl,
+            iconSize: [16, 16],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -12],
+          });
+  
+          const popupContent = `
+            <strong><a href="${link}" target="_blank">${name[1]}</a></strong><br>
+            <em>${loc ? loc[1] : "?"}</em><br>
+            Material: ${sdr_hw ? sdr_hw[1] : "?"}<br>
+            Users: ${users ? users[1] : "?"}/${users_max ? users_max[1] : "?"}<br>
+            Version: ${sw_version ? sw_version[1] : "?"}<br>
+            Antenna: ${antenna ? antenna[1] : "?"}
+          `;
+  
+          L.marker([lat, lng], { icon: kiwisdrIcon }).bindPopup(popupContent).addTo(map);
+        }
+      });
+    } catch (err) {
+      console.error("Erreur lors du chargement des données SDR:", err);
+    }
+  }
+  
+  // Appel
+  kiwiload();
+  
