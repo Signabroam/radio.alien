@@ -160,6 +160,13 @@ var noaaIcon = new L.Icon({
     popupAnchor: [1, -34]
 });
 
+var noaaSatIcon = new L.Icon({
+    iconUrl: 'https://cdn.creazilla.com/icons/3202178/satellite-icon-md.png',
+    iconSize: [40, 30], 
+    iconAnchor: [20, 41],
+    popupAnchor: [1, -34]
+})
+
 var websdrIcon = new L.Icon({
     iconUrl: './images/veronlogo100b.gif',
     iconSize: [25, 40],
@@ -175,6 +182,7 @@ function Cicon(lat, lng, popupContent, type) {
 }
 
 // Ajout des marqueurs
+
 Cicon(63.075000, 27.271000, 'KiwiSDR at Kuopio<br> <a href="http://kiwi-kuo.aprs.fi:8073/">http://kiwi-kuo.aprs.fi:8073</a>.', 'kiwisdr');
 Cicon(63.075000, 27.270000, 'KiwiSDR at Vihti<br> <a href="http://kiwi-vih.aprs.fi:8073/">http://kiwi-vih.aprs.fi:8073</a>.', 'kiwisdr');
 Cicon(60.475959, 22.136627, 'Web888 at Raisio<br> <a href="http://rha.proxy.rx-888.com:8073/">http://rha.proxy.rx-888.com:8073</a>.', 'web888');
@@ -221,6 +229,7 @@ Cicon(80.118564, -170.859375, `
     <img src="https://cdn4.iconfinder.com/data/icons/cia-operations/512/radio_transmitter-512.png" width="30" height="30"> - AM/FM Transmitter Site<br>
     <img src="https://lh6.googleusercontent.com/proxy/XxF3-F2dKSulH4ZiAXpaYOrdFEp4pu3wCFkxurZo0Z54YXztG-ExKFglO-OXXXvloNgzKDrKT06LSQCMaEap-iWHqny2V2NFbA" width="25" height="30"> - KiwiSDR<br>
     <img src="https://icon-library.com/images/gps-icon-png/gps-icon-png-6.jpg" width="30" height="30"> - Time Stations Transmitter Site<br>
+    <img src="https://cdn.creazilla.com/icons/3202178/satellite-icon-md.png" width="40" height="30"> - NOAA Satellite<br>
     <img src="./images/marker-icon.png" width="20" height="30"> - Other<br>
     <img src="./images/veronlogo100b.gif" width="25" height="40"> - WebSDR<br>
     <img src="https://raw.githubusercontent.com/CliffCloud/Leaflet.LocationShare/master/dist/images/IconMapReceive.png" width="30" height="30"> - Custom user location using the Leaflet.LocationShare script.<br>
@@ -232,7 +241,8 @@ Cicon(45.29483124694043, -75.75784300053304, '<a href="https://en.wikipedia.org/
 Cicon(54.91226494367779, -3.2786054508661464, 'MSF transmitter site.<br><br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Anthorn_array.jpg/1280px-Anthorn_array.jpg" width="100%" height="90">', 'times');
 Cicon(33.465674852770775, 130.17553039161365, 'JJY Time signal transmitter site Southern', 'times');
 Cicon(37.37244017672566, 140.84876564075654, 'JJY Time signal transmitter site Northern', 'times');
-Cicon(40.6782963, -105.0466632, '<a href="https://www.nist.gov/pml/time-and-frequency-division/time-distribution/radio-station-wwv">WWV/WWVH/WWVB transmitter site</a>.<br><br><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdi6UkqqDymb7BGjTXKaSRMp8gLwwHBas6Cg&s" width="100%" height="100">', 'times');
+Cicon(40.6782963, -105.0466632, '<a href="https://www.nist.gov/pml/time-and-frequency-division/time-distribution/radio-station-wwv">WWV/WWVB transmitter site</a>.<br><br><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdi6UkqqDymb7BGjTXKaSRMp8gLwwHBas6Cg&s" width="100%" height="100">', 'times');
+Cicon(21.987925, -159.76295, '<a href="https://www.nist.gov/pml/time-and-frequency-division/time-distribution/radio-station-wwvh">WWVH transmitter site</a>.<br><br><img src="https://www.nist.gov/sites/default/files/images/2016/12/06/wwvh3-large.jpg" width="100%" height="100">', 'times');
 
 Cicon(38.9721121, -76.924513, '<a href="https://www.cpc.ncep.noaa.gov/">NOAA Center for Weather and Climate Prediction</a><br><br> <img src="https://www.hamqsl.com/solar101vhfpic.php" width="100%" height="100">', 'noaa');
 
@@ -312,69 +322,74 @@ Cicon(-75.497157, 55.546875, 'South Pole Aurora Forecast<br><img src="https://se
     .bindPopup('WebSDR at uTwente - Area');
 
     let issMarker = null; // Stocke le marqueur ISS
-let issPath = []; // Tableau pour stocker les coordonnées de la trajectoire
-
-// Définir l'icône personnalisée pour l'ISS
-const issIcon = L.icon({
-    iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/ISS_spacecraft_model_1.png/1200px-ISS_spacecraft_model_1.png', // URL de l'image de l'ISS
-    iconSize: [100, 32], // Taille de l'icône
-    iconAnchor: [16, 32], // Point d'ancrage de l'icône (en bas au centre)
-    popupAnchor: [32, -32] // Position du popup par rapport à l'icône
-});
-
-async function updateISSLocation() {
-    try {
-        const response = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
-        const data = await response.json();
-
-        const lat = data.latitude;
-        const lon = data.longitude;
-        const name = 'International Space Station <br><iframe src="https://isstracker.spaceflight.esa.int/" width="650" height="400"></iframe>';
-
-        updateISSMarker(lat, lon, name);
-        updateISSPath(lat, lon); // Met à jour la trajectoire
-    } catch (error) {
-        console.error('Erreur lors de la récupération des données ISS :', error);
+    let issPath = []; // Tableau pour stocker les coordonnées de la trajectoire
+    
+    // Définir l'icône personnalisée pour l'ISS
+    const issIcon = L.icon({
+        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/ISS_spacecraft_model_1.png/1200px-ISS_spacecraft_model_1.png', // URL de l'image de l'ISS
+        iconSize: [100, 32], // Taille de l'icône
+        iconAnchor: [16, 32], // Point d'ancrage de l'icône (en bas au centre)
+        popupAnchor: [32, -32] // Position du popup par rapport à l'icône
+    });
+    
+    async function updateISSLocation() {
+        try {
+            const response = await fetch('https://api.wheretheiss.at/v1/satellites/25544');
+            const data = await response.json();
+    
+            const lat = data.latitude;
+            const lon = data.longitude;
+            const name = 'International Space Station <br><iframe src="https://isstracker.spaceflight.esa.int/" width="650" height="400"></iframe>';
+    
+            updateISSMarker(lat, lon, name);
+            updateISSPath(lat, lon); // Met à jour la trajectoire
+        } catch (error) {
+            console.error('Erreur lors de la récupération des données ISS :', error);
+        }
     }
-}
+    
+    // Fonction qui crée ou met à jour le marqueur ISS avec l'icône personnalisée
+    function updateISSMarker(lat, lon, name) {
+        if (!issMarker) {
+            // Si le marqueur n'existe pas, on le crée une seule fois
+            issMarker = L.marker([lat, lon], { icon: issIcon }).addTo(map); // Création d'un marqueur avec l'icône personnalisée
+            issMarker.bindPopup(name, {
+                maxWidth: 'auto',
+                minWidth: 0,
+                autoPan: true,
+                autoClose: false,
+                closeOnClick: false,
+                className: 'custom-popup' // optionnel pour styliser
+              });
 
-// Fonction qui crée ou met à jour le marqueur ISS avec l'icône personnalisée
-function updateISSMarker(lat, lon, name) {
-    if (!issMarker) {
-        // Si le marqueur n'existe pas, on le crée une seule fois
-        issMarker = L.marker([lat, lon], { icon: issIcon }).addTo(map); // Création d'un marqueur avec l'icône personnalisée
-        issMarker.bindPopup(name); // Lien avec un popup pour afficher le nom
     } else {
-        // Si le marqueur existe, on met juste à jour sa position
-        issMarker.setLatLng([lat, lon]); // Déplacement du marqueur sans le recréer
+            // Si le marqueur existe, on met juste à jour sa position
+            issMarker.setLatLng([lat, lon]); // Déplacement du marqueur sans le recréer
+        }
     }
-}
-
-// Fonction qui met à jour la trajectoire de l'ISS
-function updateISSPath(lat, lon) {
-    // Ajouter la nouvelle position à la trajectoire
-    issPath.push([lat, lon]);
-
-    // Si plus de 100 points, on supprime le plus ancien pour ne pas surcharger la carte
-    if (issPath.length > 100) {
-        issPath.shift(); // Enlève le premier élément (le plus ancien)
+    
+    // Fonction qui met à jour la trajectoire de l'ISS
+    function updateISSPath(lat, lon) {
+        // Ajouter la nouvelle position à la trajectoire
+        issPath.push([lat, lon]);
+    
+        // Si plus de 100 points, on supprime le plus ancien pour ne pas surcharger la carte
+        if (issPath.length > 100) {
+            issPath.shift(); // Enlève le premier élément (le plus ancien)
+        }
+    
+        // Si la trajectoire existe déjà sur la carte, on la met à jour
+        if (window.issPolyline) {
+            window.issPolyline.setLatLngs(issPath);
+        } else {
+            // Si la trajectoire n'existe pas encore, on crée une nouvelle polyline
+            window.issPolyline = L.polyline(issPath, { color: 'blue', weight: 4, opacity: 0.7 }).addTo(map);
+        }
     }
-
-    // Si la trajectoire existe déjà sur la carte, on la met à jour
-    if (window.issPolyline) {
-        window.issPolyline.setLatLngs(issPath);
-    } else {
-        // Si la trajectoire n'existe pas encore, on crée une nouvelle polyline
-        window.issPolyline = L.polyline(issPath, { color: 'blue', weight: 2, opacity: 0.7 }).addTo(map);
-    }
-}
-
-// Mettre à jour toutes les 5 secondes
-setInterval(updateISSLocation, 1000);
-updateISSLocation();
-
-
-
+    
+    // Mettre à jour toutes les 5 secondes
+    setInterval(updateISSLocation, 1000);
+    updateISSLocation();
 
 
 
@@ -412,7 +427,7 @@ const markersData = [
       iconAnchor: [12, 24],
     });
   
-    const marker = L.marker([data.lat, data.lng], { icon });
+    const marker = L.marker([data.lat, data.lng], { icon }).bindTooltip('ALLISS Antenna').bindPopup('<a href="https://www.google.com/maps?q&layer=c&cbll=' + data.lat + ',' + data.lng + '">See the ALLISS Antenna on Google Maps.</a>').addTo(map);
     marker.minZoom = data.minZoom;
     markers.push(marker);
   });
@@ -483,7 +498,7 @@ const markersData = [
             Antenna: ${antenna ? antenna[1] : "?"}
           `;
   
-          L.marker([lat, lng], { icon: kiwisdrIcon }).bindPopup(popupContent).addTo(map);
+          L.marker([lat, lng], { icon: kiwisdrIcon, alt: 'KiwiSDR Marker', bubblingMouseEvents: true, interactive: true}).bindTooltip(popupContent).bindPopup(popupContent).addTo(map);
         }
       });
     } catch (err) {
@@ -494,3 +509,111 @@ const markersData = [
   // Appel
   kiwiload();
   
+
+  const noaaSatellites = {};
+const predictionDuration = 110; // minutes
+
+function updateSatellitePosition(satObj) {
+  const now = new Date();
+  const posVel = satellite.propagate(satObj.satrec, now);
+  const gmst = satellite.gstime(now);
+  const geo = satellite.eciToGeodetic(posVel.position, gmst);
+  const lat = satellite.degreesLat(geo.latitude);
+  const lon = satellite.degreesLong(geo.longitude);
+
+  if (!satObj.marker) {
+    satObj.marker = L.marker([lat, lon], { icon: noaaSatIcon }).addTo(map);
+    satObj.marker.bindPopup(satObj.name);
+    satObj.marker.on('click', () => {
+        if (satObj.predictionPolyline) {
+          map.removeLayer(satObj.predictionPolyline);
+          satObj.predictionPolyline = null;
+        } else {
+          generatePredictionPath(satObj); // ça l'ajoute
+        }
+      });
+      
+  } else {
+    satObj.marker.setLatLng([lat, lon]);
+  }
+
+  // Historique
+  satObj.path.push([lat, lon]);
+  if (satObj.path.length > 100) satObj.path.shift();
+
+  if (!satObj.polyline) {
+    satObj.polyline = L.polyline(satObj.path, { color: 'green', weight: 2 }).addTo(map);
+  } else {
+    satObj.polyline.setLatLngs(satObj.path);
+  }
+}
+
+// Prédiction future
+function generatePredictionPath(satObj) {
+  const prediction = [];
+  const now = new Date();
+
+  for (let i = 0; i <= predictionDuration; i += 1) {
+    const future = new Date(now.getTime() + i * 60000);
+    const pos = satellite.propagate(satObj.satrec, future);
+    const gmst = satellite.gstime(future);
+    const geo = satellite.eciToGeodetic(pos.position, gmst);
+    const lat = satellite.degreesLat(geo.latitude);
+    const lon = satellite.degreesLong(geo.longitude);
+    prediction.push([lat, lon]);
+  }
+
+  if (satObj.predictionPolyline) {
+    satObj.predictionPolyline.setLatLngs(prediction);
+  } else {
+    satObj.predictionPolyline = L.polyline(prediction, {
+      color: 'orange',
+      dashArray: '5, 5',
+      weight: 1.5,
+      opacity: 0.8
+    }).addTo(map);
+  }
+}
+
+initNOAASatellites();async function initNOAASatellites() {
+    try {
+      const res = await fetch('https://celestrak.org/NORAD/elements/weather.txt');
+      const text = await res.text();
+  
+      // Filtrer les lignes non vides
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  
+      for (let i = 0; i < lines.length - 2; i += 3) {
+        const name = lines[i];
+        const tle1 = lines[i + 1];
+        const tle2 = lines[i + 2];
+  
+        if (!tle1.startsWith("1 ") || !tle2.startsWith("2 ")) {
+          console.warn(`Skipping invalid TLE block at lines ${i + 1}-${i + 2}`);
+          continue;
+        }
+  
+        const satrec = satellite.twoline2satrec(tle1, tle2);
+  
+        noaaSatellites[name] = {
+          name,
+          satrec,
+          marker: null,
+          path: [],
+          polyline: null,
+          predictionPolyline: null
+        };
+      }
+  
+      console.log(`Loaded ${Object.keys(noaaSatellites).length} NOAA satellites`);
+  
+      setInterval(() => {
+        for (const satName in noaaSatellites) {
+          updateSatellitePosition(noaaSatellites[satName]);
+        }
+      }, 1000);
+  
+    } catch (err) {
+      console.error('Erreur lors du chargement des TLE NOAA :', err);
+    }
+  }
