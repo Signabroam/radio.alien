@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <title>AliSDR+</title>
+  <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
   <style>
     * {
       margin: 0;
@@ -312,8 +312,8 @@
         `;
       } else if (option === 'option2') {
         leftContent.innerHTML = `
-          <h2>Option 2</h2>
-          <p>Contenu pour l'option 2.</p>
+          <h2>Discord IRC</h2>
+          <widgetbot server="1323761053733093406" channel="1323761053733093409" width="auto" height="100%"></widgetbot>
         `;
       } else if (option === 'option3') {
         leftContent.innerHTML = `
