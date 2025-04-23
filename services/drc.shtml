@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DRC - IRC</title>
+<meta name="og:description" content="RA2.0 DRC - IRC (Discord IRC)">
+<link rel="stylesheet" href="drc.css">
+<style>
+    iframe {
+      border: none;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      margin: 0px;
+      padding: 0px;
+    }
+  </style>
+</head>
+<body>
+   <iframe src="https://e.widgetbot.io/channels/1323761053733093406/1323761053733093409?api=14bac4ea-d455-43a2-8658-3d6fbdb2bbb9"></iframe>
+</body>
+</html>
