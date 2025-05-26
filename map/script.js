@@ -249,60 +249,7 @@ Cicon(38.9721121, -76.924513, '<a href="https://www.cpc.ncep.noaa.gov/">NOAA Cen
 Cicon(83.111071, -35.859375, 'North Pole Aurora Forecast<br><img src="https://services.swpc.noaa.gov/images/animations/ovation/north/latest.jpg" width="300" height="300">', 'autreIcon');
 Cicon(-75.497157, 55.546875, 'South Pole Aurora Forecast<br><img src="https://services.swpc.noaa.gov/images/animations/ovation/south/latest.jpg" width="300" height="300">', 'autreIcon');
 
-// Ajout d'un marqueur avec une popup
-
-    L.polygon([
-        [60.315367, 30.277741],
-        [60.313709, 30.277805],
-        [60.309586, 30.277441],
-        [60.308821, 30.283127],
-        [60.310893, 30.286324],
-        [60.313635, 30.285745],
-        [60.314613, 30.284715],
-        [60.315271, 30.281367]
-    ]).addTo(map)
-    .bindPopup('UVB-76 Transmitter Site Area');
-
-    L.marker([52.4294444, 20.8813889]).addTo(map)
-    .bindPopup('<a href="https://priyom.org/number-stations/english/e11">E11 (Oblique) transmitter location</a>.<br><br><img src="https://i.ytimg.com/vi/Omiy0Leoat0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCpyS-P9QMBMEfNECbVGPfSdrmMpg" width="300" height="150">')
-    .openPopup();
-
-    L.marker([22.8679204, -82.3347962]).addTo(map)
-    .bindPopup('<a href="https://priyom.org/number-stations/digital/hm01">HM01</a>, <a href="https://priyom.org/number-stations/other/v02a">V02a</a>, <a href="https://priyom.org/number-stations/other/v02">V02</a> Number Stations transmitter site.')
-    .openPopup();
-
-    L.marker([25.03584943026459, 121.0969072394112]).addTo(map)
-    .bindPopup('<a href="https://priyom.org/number-stations/other/v13">V13 Number station transmitter site</a>.<br><br><img src="https://i.postimg.cc/c1pznN83/image.png" width="100%" height="100">')
-    .openPopup();
-
-    L.polygon([
-        [63.08967, 27.24575],
-        [63.083298, 27.242317],
-        [63.075215, 27.24781],
-        [63.070823, 27.270555],
-        [63.073777, 27.286263],
-        [63.080034, 27.284546],
-        [63.08866, 27.267895]
-    ]).addTo(map)
-    .bindPopup('KiwiSDR Kuopio and Vihti area');
-
-    L.polygon([
-        [45.293686, -75.760115],
-        [45.29266, -75.756907],
-        [45.295132, -75.753436],
-        [45.296837, -75.755517],
-        [45.296928, -75.758951]
-    ]).addTo(map)
-    .bindPopup('CHU Canada transmitter site area');
-
-    L.polygon([
-        [62.018125, 25.717535],
-        [62.01441, 25.715539],
-        [62.012698, 25.720325],
-        [62.014944, 25.72953],
-        [62.01735, 25.725067]
-    ]).addTo(map)
-    .bindPopup('KiwiSDR Korpilahti area');
+// Ajout de la couche de localisation de l'utilisateur
 
     L.circle([65.870085, 22.644324], {
         color: 'khaki',
@@ -320,6 +267,19 @@ Cicon(-75.497157, 55.546875, 'South Pole Aurora Forecast<br><img src="https://se
         radius: 300
     }).addTo(map)
     .bindPopup('WebSDR at uTwente - Area');
+
+     L.marker([52.4294444, 20.8813889]).addTo(map)
+    .bindPopup('<a href="https://priyom.org/number-stations/english/e11">E11 (Oblique) transmitter location</a>.<br><br><img src="https://i.ytimg.com/vi/Omiy0Leoat0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCpyS-P9QMBMEfNECbVGPfSdrmMpg" width="300" height="150">')
+    .openPopup();
+
+    L.marker([22.8679204, -82.3347962]).addTo(map)
+    .bindPopup('<a href="https://priyom.org/number-stations/digital/hm01">HM01</a>, <a href="https://priyom.org/number-stations/other/v02a">V02a</a>, <a href="https://priyom.org/number-stations/other/v02">V02</a> Number Stations transmitter site.')
+    .openPopup();
+
+    L.marker([25.03584943026459, 121.0969072394112]).addTo(map)
+    .bindPopup('<a href="https://priyom.org/number-stations/other/v13">V13 Number station transmitter site</a>.<br><br><img src="https://i.postimg.cc/c1pznN83/image.png" width="100%" height="100">')
+    .openPopup();
+
 
     let issMarker = null; // Stocke le marqueur ISS
     let issPath = []; // Tableau pour stocker les coordonnées de la trajectoire
