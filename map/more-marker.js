@@ -1740,3 +1740,7 @@ L.marker([48.95131, 40.29104])
     .addTo(map)
     .bindPopup('338th Radio-Technical Regiment, military unit 40213-U')
     .openPopup();
+
+    L.marker([68.518591, 33.290658])
+    .addTo(map)
+    .bindPopup('Murmurs of Murmansk BN at Kola/Pushnoy, Russia.')
