@@ -161,7 +161,7 @@ var noaaIcon = new L.Icon({
 });
 
 var noaaSatIcon = new L.Icon({
-    iconUrl: 'https://cdn.creazilla.com/icons/3202178/satellite-icon-md.png',
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/10290/10290311.png',
     iconSize: [40, 30], 
     iconAnchor: [20, 41],
     popupAnchor: [1, -34]
@@ -208,7 +208,7 @@ Cicon(54.8249925, 31.8132469, '<a href="https://priyom.org/military-stations/rus
 Cicon(54.8243392, 31.8137079, '<a href="https://priyom.org/military-stations/russia/the-air-horn">(almost accurate) The Air Horn transmitter location</a>', 'military');
 Cicon(54.8226154, 31.8154299, '<a href="https://priyom.org/military-stations/russia/the-goose">(almost accurate) The Goose transmitter location</a>', 'military');
 Cicon(56.0832275, 37.1101672, '<a href="https://priyom.org/military-stations/russia/the-buzzer">1992 - 2010 UVB-76 transmitter location</a><br><br><img src="https://i1.wp.com/qrv73.com/wp-content/uploads/2020/05/maxresdefault-1.jpg?fit=800%2C450&ssl=1" width="200" height="100">', 'military');
-Cicon(55.4262114, 36.7087830, 'Naro Fominsk suspected UVB-76 location.', 'military');
+Cicon(55.4262114, 36.7087830, 'Naro Fominsk location.', 'military');
 Cicon(42.72678372091614, 23.159088733480612, 'UM04 "PROMRCh" transmitter location', 'military');
 Cicon(35.446488983415385, 140.1852398121408, '<a href="https://web.archive.org/web/20200524075538/http://priyom.org/military-stations/japan/slot-machine">XSL/Slot Machines transmitter location.</a><br><br><img src="https://i.postimg.cc/vB332pPQ/XSL-The-Japanese-Slot-Machine-Antenna-View.png" width="100%" height="100">', 'military');
 
@@ -229,7 +229,7 @@ Cicon(80.118564, -170.859375, `
     <img src="https://cdn4.iconfinder.com/data/icons/cia-operations/512/radio_transmitter-512.png" width="30" height="30"> - AM/FM Transmitter Site<br>
     <img src="https://lh6.googleusercontent.com/proxy/XxF3-F2dKSulH4ZiAXpaYOrdFEp4pu3wCFkxurZo0Z54YXztG-ExKFglO-OXXXvloNgzKDrKT06LSQCMaEap-iWHqny2V2NFbA" width="25" height="30"> - KiwiSDR<br>
     <img src="https://icon-library.com/images/gps-icon-png/gps-icon-png-6.jpg" width="30" height="30"> - Time Stations Transmitter Site<br>
-    <img src="https://cdn.creazilla.com/icons/3202178/satellite-icon-md.png" width="40" height="30"> - NOAA Satellite<br>
+    <img src="https://cdn-icons-png.flaticon.com/512/10290/10290311.png" width="40" height="30"> - NOAA Satellite<br>
     <img src="./images/marker-icon.png" width="20" height="30"> - Other<br>
     <img src="./images/veronlogo100b.gif" width="25" height="40"> - WebSDR<br>
     <img src="https://raw.githubusercontent.com/CliffCloud/Leaflet.LocationShare/master/dist/images/IconMapReceive.png" width="30" height="30"> - Custom user location using the Leaflet.LocationShare script.<br>
@@ -577,3 +577,33 @@ initNOAASatellites();async function initNOAASatellites() {
       console.error('Erreur lors du chargement des TLE NOAA :', err);
     }
   }
+
+
+fetch('./rusmil/doc2.json')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data, {
+      pointToLayer: function(feature, latlng) {
+        let iconUrl = feature.properties.icon || 'http://maps.google.com/mapfiles/kml/paddle/5.png';
+        let myIcon = L.icon({
+          iconUrl: iconUrl,
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        });
+        return L.marker(latlng, {icon: myIcon});
+      },
+      onEachFeature: function(feature, layer) {
+        if (feature.properties && feature.properties.name && feature.properties.description) {
+          layer.on('click', function(e) {
+            layer.bindPopup(`<strong>${feature.properties.name}</strong><br>${feature.properties.description.replace(/\n/g, '<br>')}`).openPopup();
+          });
+        }
+      }
+    }).addTo(map);
+  });
+
+fetch('./rusmil/doc1.json')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data).addTo(map);
+  });
