@@ -1,0 +1,12 @@
+1
+00:00:01,120 --> 00:00:02,400
+6218 khz.
+
+2
+00:00:03,280 --> 00:00:08,200
+Frequency one center, located in the Leningrad region.
+
+3
+00:00:09,320 --> 00:00:09,880
+Vulkan.
+
