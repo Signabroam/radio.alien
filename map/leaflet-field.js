@@ -10,7 +10,7 @@
         [60.314613, 30.284715],
         [60.315271, 30.281367]
     ]).addTo(map)
-    .bindPopup('Kerro Military Command Base Area, UVB-76 Transmitter Site Area');
+    .bindPopup('<a href="../services/wiki/vulkan.html" target="_blank">Vulkan Military Radio Communication Base Area</a>');
 
     L.polygon([
         [60.317066, 30.298230],
@@ -48,28 +48,6 @@
         [60.300606, 30.277671]
     ]).addTo(map)
     .bindPopup('Kerro Military Command Base Area');
-
-    // Polylines fror the Kerro Military Command Base Area:
-    L.polyline([
-        [60.310889, 30.286325],
-        [60.308588, 30.295615]
-    ]).addTo(map);
-    L.polyline([
-        [60.314324, 30.298892],
-        [60.308841, 30.296587]
-    ]).addTo(map);
-    L.polyline([
-        [60.300525, 30.281805],
-        [60.307992, 30.296027]
-    ]).addTo(map);
-
-    L.circle([60.308395, 30.296441], {
-        color: 'purple',
-        fillColor: '#orange',
-        fillOpacity: 0.5,
-        radius: 50.05
-    }).addTo(map)
-    .bindPopup('Kerro Military Command Base Area -> 60th Communications Node of the Russian Ministry of Defense / UZB-76, NZhTI Transmitter Site');
 
     L.polygon([
         [63.08967, 27.24575],
